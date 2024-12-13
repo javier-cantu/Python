@@ -30,7 +30,7 @@ import time
 # ===========================
 # Configuración
 # ===========================
-input_file = "D:\\03 coding\\Python random\\test.mkv"  # Ruta del archivo de entrada
+input_file = "D:\\03 coding\\Python random\\1945_Catch_as_Cats_Can.mkv"  # Ruta del archivo de entrada
 duration = 20  # Duración de cada fragmento en segundos
 max_size_mb = 3.5  # Tamaño máximo por fragmento en MB
 codec_video = "libvpx-vp9"  # Códec de video
@@ -77,6 +77,9 @@ def split_video(input_file, output_dir, duration, codec_video, bitrate_video, co
         print(f"El archivo de entrada '{input_file}' no existe. Verifica la ruta.")
         exit(1)
 
+    # Obtener el nombre base del archivo de entrada (sin extensión)
+    file_base_name = os.path.splitext(os.path.basename(input_file))[0]
+
     total_duration = get_video_duration(input_file)
     total_parts = math.ceil(total_duration / duration)
     print(f"Duración total del video: {total_duration} segundos")
@@ -86,7 +89,8 @@ def split_video(input_file, output_dir, duration, codec_video, bitrate_video, co
     times = []  # Lista para almacenar tiempos de procesamiento de cada parte
 
     for start_time in range(0, total_duration, duration):
-        output_file = os.path.join(output_dir, f"part_{part:03d}.webm")
+        # Generar el nombre del archivo de salida
+        output_file = os.path.join(output_dir, f"{file_base_name}_{part:03d}.webm")
         print(f"Procesando fragmento {part}: {output_file} ({start_time}/{total_duration})")
 
         start_time_part = time.time()  # Tiempo inicial para esta parte
@@ -113,17 +117,14 @@ def split_video(input_file, output_dir, duration, codec_video, bitrate_video, co
             print(f"Error al procesar el fragmento {part}: {e}")
             continue
 
-        # Tiempo final para esta parte
         end_time_part = time.time()
         elapsed_time = end_time_part - start_time_part
         times.append(elapsed_time)
 
-        # Cálculo del tiempo estimado restante
-        avg_time = sum(times) / len(times)  # Tiempo promedio por fragmento
+        avg_time = sum(times) / len(times)
         remaining_parts = total_parts - part
         estimated_remaining_time = avg_time * remaining_parts
 
-        # Mostrar información con formato claro
         print("=" * 50)
         print(f"Fragmento {part} completado en {elapsed_time:.2f} segundos.")
         print(f"Tiempo estimado restante: {estimated_remaining_time / 60:.2f} minutos ({remaining_parts} partes restantes)")
@@ -132,6 +133,7 @@ def split_video(input_file, output_dir, duration, codec_video, bitrate_video, co
         part += 1
 
     print(f"Fragmentación completa. Los fragmentos están en la carpeta '{output_dir}'")
+
 
 # ===========================
 # Calcular los bitrates
