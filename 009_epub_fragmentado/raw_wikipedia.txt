@@ -1,0 +1,26 @@
+title: History of philosophy  
+subtitle: From Wikipedia, the free encyclopedia
+
+#level1: History of philosophy
+
+(Paragraphs...)
+
+#level2: Definition and related disciplines
+
+(Paragraphs...)
+
+#level2: Western
+
+(Paragraphs...)
+
+#level3: Ancient
+
+(Paragraphs...)
+
+#level4: Presocratic
+
+(Paragraphs...)
+
+#level3: Medieval
+
+(Paragraphs...)
