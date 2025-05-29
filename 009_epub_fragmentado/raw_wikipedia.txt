@@ -1,26 +1,120 @@
-title: History of philosophy  
-subtitle: From Wikipedia, the free encyclopedia
+title: Dark Souls (video game)
+subtitle: From Wikipedia, the free encyclopedia. 2025.
 
-#level1: History of philosophy
+#level1: Dark Souls (video game)
 
-(Paragraphs...)
+Dark Souls[c] is a 2011 action role-playing game developed by FromSoftware and published by Namco Bandai Games. A spiritual successor to FromSoftware's Demon's Souls, the game is the first in the Dark Souls series. The game takes place in the kingdom of Lordran, where players assume the role of a cursed undead character who escapes from the Northern Undead Asylum and begins a pilgrimage to discover the fate of their kind. A port for Windows featuring additional content, known as the Prepare to Die Edition, was released in August 2012. It was also released for consoles under the subtitle Artorias of the Abyss in October 2012.
 
-#level2: Definition and related disciplines
+Dark Souls has been cited as one of the greatest video games ever made. Critics praised the depth of its combat, intricate level design, and use of flavor text. However, they were divided on the game's difficulty for being unforgiving. The original Windows version of the game was less well-received, with criticism directed at several technical issues. By April 2013, the game had sold over two million copies worldwide. Its success led to the development of two sequels—Dark Souls II (2014) and Dark Souls III (2016)—while a remastered version was released in 2018. 
 
-(Paragraphs...)
+#level2: Gameplay
 
-#level2: Western
+Dark Souls is a third-person action role-playing game. A core mechanic of the game is exploration. Players are encouraged to proceed with caution, learn from past mistakes, or find alternative areas to explore. Dark Souls takes place in a large and continuous, interconnected environment, connected through a central hub area. The player character can travel between areas and explore various paths at will, although prerequisites must be met to unlock certain areas.[1][2][3][4]
 
-(Paragraphs...)
+A central element to the gameplay of Dark Souls is the bonfire. Bonfires are scattered throughout the world and serve as checkpoints for each level. By resting at a bonfire, the player character is healed to full and regains all of the healing charges of their "Estus Flask." They can also level up and perform other functions, such as attuning magic and repairing and upgrading equipment. However, resting at a bonfire respawns all of the world's enemies, except for bosses, mini-bosses, and friendly non-playable characters.
 
-#level3: Ancient
+The player character's interaction with the world of Dark Souls includes a great deal of combat. Combat includes melee attacks, ranged attacks, various forms of defensive maneuvering, and magical abilities. For melee attacks, player characters have access to a wide array of high fantasy, medieval-style weaponry—including swords, spears, maces, and fantastical weaponry such as magical swords, huge greatswords, and immense clubs. For ranged attacks, player characters have access to an array of bows and crossbows. For defence, player characters have access to shields, armour, dodge rolling, backstepping, and parrying. For magic, which includes a wide variety of offensive and defensive abilities known as sorceries, miracles, and pyromancies, player characters do not use any form of mana as in most other fantasy RPGs. Instead, they gain a discrete number of uses for each attuned spell when resting at a bonfire. These various forms of combat all have tradeoffs, variations, and in-game costs associated with them. They can all be buffed or altered in some fashion through levelling, smithing, consumable items, magical rings, and new equipment. 
 
-(Paragraphs...)
+#level23: Multiplayer
 
-#level4: Presocratic
+Another aspect of Dark Souls is the "humanity" system. There are two forms the player character can be in during the game, human form or undead form. Whenever the player character dies in human form, they are returned to undead form and can only return to human by consuming the humanity item and issuing the command at the bonfire to restore humanity. While in human form, the player character may summon other players and non-player characters (NPCs) to assist them, but they may also be subjected to invasions by other players and NPCs who seek to kill the player to restore their humanity, harvest souls, or achieve some other goal. Humanity can be acquired in many ways, and if no humanity is available, players can still progress in undead form. Death results in the loss of all carried souls and humanity, but players revive as undead at their most recent bonfire with one chance at returning to where they died to recover all lost souls and humanity. If the player dies before reaching their "bloodstain," their previously accrued souls and humanity are permanently lost. Carrying humanity grants bonuses and resistances, incentivizing players to hold onto their humanity.
 
-(Paragraphs...)
+Communication and interaction between players are deliberately restricted. Outside of some character gestures, the only communication players have with one another comes through orange soapstones, which allow players to write preset phrases that others can read in the same area. Also, players can enter cooperative or player versus player combat with each other.[5][6] Throughout the game, there are multiple NPCs that the player may encounter on their journey. These characters add to the plot of the game but are not essential. If the player chooses to engage with them, some of the characters can assist the player by being summoned for certain boss fights when the player character is in human form.
 
-#level3: Medieval
+The multiplayer component for the PC version of Dark Souls was disabled in February 2022, in response to a security threat within the matchmaking system found that same month.[7] In October 2022, Namco Bandai confirmed that online multiplayer for the "Prepare to Die" version of the game had been permanently disabled due to aging hardware, but noted that they were working on restoring online multiplayer for the Remastered version.[8] 
 
-(Paragraphs...)
+#level2: Synopsis
+
+Dark Souls employs minimalist storytelling to convey its plot and lore. Historical events in the world and their significance are often implicit or left to player interpretation rather than fully shown or explained. Most of the story is given to the player through dialogue from non-player characters, flavor text from items, and world design; how players progress through the story can vary heavily depending on their actions. 
+
+#level23: Plot
+
+The opening cutscene establishes the premise of the game. Everlasting Dragons once ruled over the world during the "Age of Ancients." A primordial fire known as the First Flame manifests in the world, establishing a distinction between life and death, and light and dark. A being known as Gwyn happens upon the First Flame and along with his allies use their new power to destroy the dragons and take control over the world, while the Furtive Pygmy is said to be forgotten, and thus begins the "Age of Fire." Over time, as the First Flame begins to fade while humans rise in power, Gwyn sacrifices himself to prolong the Age of Fire. The main story takes place towards the end of this second Age of Fire, at which point humanity is said to be afflicted with an undead curse related to a symbol on their bodies known as the Darksign. Those humans afflicted with the undead curse perpetually resurrect after death until they eventually lose their minds, a process referred to as "hollowing."
+
+The player character is a cursed undead, locked away in an undead asylum. After escaping the asylum, the player travels to Lordran to ring the Bells of Awakening. The bells awaken Kingseeker Frampt who tells the player to ascend to Anor Londo, the home of the Gods. After fighting through the nearly abandoned city, the player discovers the daughter of Gwyn, Gwynevere, who instructs the player to succeed Lord Gwyn and fulfill the prophecy. To accomplish this, the player must acquire the souls of Gwynn's primordial allies and return them to the flame in order to rekindle it. Optionally, the player may encounter Darkstalker Kaathe, who encourages the player not to link the fire but to let it die out and usher in the Age of Dark instead. After aquirring all the Lord Souls, the player travels to the Kiln of the First Flame to battle Gwyn. Once Gwyn has been defeated, the player has the choice of linking the flame to preserve the Age of Fire or letting it die out to instigate the Age of Dark. 
+
+#level23: Artorias of the Abyss
+
+In the Artorias of the Abyss expansion, the Chosen Undead is dragged into the past to the fallen land of Oolacile in an effort to rescue Princess Dusk of Oolacile and ascertain the fate of her would-be rescuer, the Knight Artorias. The player soon discovers that Artorias was defeated by Manus, the Lord of the Abyss, and left in a corrupted and feral state. After reaching the Chasm of the Abyss, the player defeats Manus. Unfortunately, the player finds Princess Dusk in a catatonic condition. 
+
+#level2: Development
+
+Dark Souls was developed by FromSoftware, with series creator Hidetaka Miyazaki directing and producing. Dark Souls is a spiritual successor to FromSoftware's 2009 game Demon's Souls, published and owned by Sony Computer Entertainment.[9][10] Bandai Namco Entertainment was chosen to publish Dark Souls as they had the ability to release on more platforms.[11][12][13]
+
+The design and development process itself involved a guided freeform approach, with Miyazaki steering designers while allowing them latitude for creativity:
+
+    The design ordering process for Dark Souls can be divided into two main categories. The first involves providing the designers with simple keywords we brainstormed during the early stages of project development and allowing them to design freely. We take the images they produce and provide feedback, make adjustments as necessary, or incorporate their ideas into our plans. [...] The second process comes into play once we've settled on the basic details of the game world. At that point we are able to make more detailed design requests. These requests usually include information like how the design will be used, where in the game the design will be used, and the specific purpose of the design in terms of what it will represent in the game. [...] Either way, I am the one who hands out the orders and I work directly with each designer instead of having a middleman between us.[14]
+
+Miyazaki stated that the game draws direct inspiration from earlier works of fantasy and dark fantasy, especially the manga series Berserk.[14][15] He has described the driving aesthetic principle of the game as being "a certain kind of refinement, elegance, and dignity".[14] He also described the themes which guided the design of the game in the following way: "I put three major guidelines in place: Gods and knights centered around Anor Londo, demonic chaos and flames centered around Lost Izalith, and the theme of death centered around Gravelord Nito. To these themes we added the special concept of ancient dragons that predate all life, and this formed the basis for Dark Souls".[14] Many of the game's locations were inspired by the real-world, such as the Château de Chambord in France and Milan Cathedral in Italy.[14][16]
+
+The characters and world of Dark Souls contain many philosophical and folkloric parallels among Greek mythology,[17][18] Japanese mythology,[19] French existentialism,[20] and the work of proto-existentialist philosophers like Friedrich Nietzsche.[20] Dark Souls' description of natural cycles that the world experiences, and the designs of some individual characters, parallel Japanese and Greek myths.[17][19] The game's presentation of a universe defined by the inevitable burning out of a flame and the tragic stories of the individuals in that meaningless world, parallel ideas in schools of philosophy concerning existentialism, absurdity, meaninglessness, and the end of the universe.[20]
+
+#level2: Marketing and release
+
+The game was first released for the PlayStation 3 and Xbox 360 in Japan on September 22, 2011, and in Western regions in October 2011. Following the game's success, many expressed their hope for a PC version.[21] In early 2012, fans started a petition to bring Dark Souls to PC, with over 93,000 people signing it.[22] A PC version of the game was confirmed in April 2012 via German magazine PC Action.[23] It had been reported during the development process that FromSoftware had been having difficulty with the port due to inexperience with PC as a platform and were focusing on new content rather than optimization.[24] Re-branded as the Prepare To Die Edition, it came out in August 2012 and featured new content, including bosses, enemies, equipment, and NPCs.[25] The new content, subtitled Artorias of the Abyss, was also released for consoles in October 2012 as downloadable content (DLC).[26] Soon after, it was announced that Dark Souls for PC would use Games for Windows – Live for online play and DRM, spurring fan backlash.[27]
+
+The PC version was released on August 23, 2012. A user-created mod to circumvent the resolution cap, named "DSFix", was created shortly after release.[28] DSFix was later extended to become an unofficial fan-made patch that also allowed graphical improvements, raising the framerate cap to 60, and installing custom texture mods.[29] On December 15, 2014, Games for Windows – Live was removed from the Steam version and replaced by Steamworks. The ability to transfer both achievements and save data was provided.[30] In April 2016, Dark Souls became available on Xbox One via backward compatibility.[31]
+
+A remastered version of the game, titled Dark Souls: Remastered, was released worldwide for PlayStation 4, Xbox One, and Windows in May 2018, and for the Nintendo Switch on October 19, 2018.[32][33] The remaster was ported by the Polish studio QLOC, whereas the Switch version was ported by the Singaporean studio Virtuos. The game runs at a native 60 frames per second on all platforms except the Nintendo Switch and supports a 4K resolution on the PlayStation 4 Pro, Xbox One X, and Windows.[34] Several changes were made to the online multiplayer, including adding dedicated servers, increasing the maximum number of players online from four to six, and password matchmaking.[35][36][37] 
+
+#level2: Reception
+
+#level23: Original release
+
+Dark Souls received positive reviews from critics upon its release. One of the reviewers for Dark Souls described it as "a very hardcore dark-fantasy [role-playing game]" that is "role-playing right down to the roots", and stated that the "massive field map and powerful enemies serve to rev up both your sense of adventure and your sense of dread." Another reviewer said that "the sheer happiness you get after the trial-and-error pays off and you overcome the challenge is absolutely impossible to replicate."[53]
+
+GameSpot praised the online system and the sense of jubilation when conquering boss fights after numerous failed attempts. They also suggested that casual gamers may struggle to progress, whereas role-playing game enthusiasts will thrive on the difficulty.[44] IGN complimented the level design, variety, strong emphasis on online features, excessively dark tone and atmosphere, and deep gameplay. While praising the extreme difficulty, they stated that "there's a difference between punishing, and downright unfair."[54] Eurogamer also applauded the level design and atmosphere while noting that the game's difficulty might not appeal to casual gamers.[41]
+
+Edge retroactively awarded the game 10 out of 10 in their October 2013 20th anniversary issue, stating that the breadth and quality of the game's design had overruled complaints about its difficulty.[39]
+
+Game Informer Phil Kollar opined that "the frustration in Dark Souls arises from how [late '00s and early 2010s] games have conditioned us. Gamers are used to handholding tutorials that walk you through every aspect of a game’s mechanics." While complimenting the game's notoriously steep difficulty curve, Kollar was less favourable toward its "overall lack of direction".[47]
+
+In a review of Dark Souls in Black Gate, Connor Gormley said "I can't help but smile at all the things I've done in this game, from the serious and atmospheric, to the actually kind of stupid, like losing a fist fight with a giant mushroom man who I like to imagine has a thick cockney accent. I've given very few examples of the game's lore by design, because half of the fun is finding that out for yourself, at least if you're in it for the fantasy. It's an experience, one fueled by creativity and ingenuity, and it's one that I urge you to go out and at least try, regular gamer or not."[55]
+
+Namco Bandai's yearly financial report stated that the game sold 1.19 million units in the United States and Europe by March 2012.[56] FromSoftware announced in April 2013 that the game had sold 2.37 million units worldwide.[57][58] 
+
+#level23: Later releases
+
+In GameSpy's review, the original Windows port was referred to as "shabby", citing the game's limit of 30 frames per second, poor mouse and keyboard controls, and nonadjustable resolution. However, the expanded content was praised, giving the game an overall favourable review.[66] Eurogamer also commented on the quality of the port, stating: "Dark Souls: Prepare to Die Edition does not come with the technical options you would expect from a well-engineered PC game, because it's a port of a console game, and that's all FromSoftware ever promised to deliver. Anyone who passes up Dark Souls for this reason is cutting off their nose to spite their neckbeard of a face."[67] One of the producers of Dark Souls II, Takeshi Miyazoe, responded to the criticism of the PC version by saying:[68]
+
+    This is going to sound bad but our main priority was to get the game onto the PC as fast as possible, because people wanted it on the PC. The PC market in Japan is so minimal that originally there were no plans to make it on the PC, but with the strong petition from the North American and European fans, even with the lack of experience of working on a PC platform we still did our best to try to get it out as fast as possible. [The problems] were expected to a certain extent. We did know there were PC-specific features like key-mapping and use of the mouse and keyboard, high resolution and higher frame rate, stuff like that, but... It's not that we ignored it, but it would have taken too much time for us to implement it, test it and get it up to the level people expected. It was more of a publisher (Namco Bandai) decision to say, "Guys, don't worry about this – let's just get it out and see how this works on PC."
+
+Dark Souls: Remastered received "generally favorable" reviews from critics, according to review aggregator Metacritic.[60] Critics praised the improved visuals and performance, while criticism was directed towards the lack of an effective anti-cheat system[69][70] and the PC version's price despite few significant changes.[71] It sold 71,739 copies in Japan during the week of its release, making it the best-selling game in the country at the time.[72] 
+
+#level23: Awards
+
+Game Revolution gave Dark Souls the Community Choice Game of the Year award.[73] IncGamers also gave it the "Game of the Year" award.[74] Q-Games' Dylan Cuthbert and Double Fine Productions' Brad Muir chose Dark Souls as Game of the Year.[75] Electronic Gaming Monthly's Eric L. Patterson chose it as Game of the Year.[76] GameTrailers gave it the "Best Role-Playing Game" award[77] while also nominating it for the "Best Multiplayer Game", "Best Trailer", and "Game of the Year" awards.[78] GameZone gave the game the "Best Action/Adventure" award and chose it as the runner-up for the "Best RPG" award.[79] At the 15th Annual Interactive Achievement Awards (now known as the D.I.C.E. Awards), the Academy of Interactive Arts & Sciences nominated Dark Souls for "Role-Playing/Massively Multiplayer Game of the Year".[80]
+
+The Daily Telegraph gave the game the "Best Integration of Online Features" award and nominated it for the awards of "Best Director" (Hidetaka Miyazaki), "Best Level Design", "Best Sound Design", "Best Original Score" (Motoi Sakuraba), "Best Developer" (FromSoftware), and "Game of the Year".[81] TeamXbox gave it an honourable mention as the runner-up for the "Best RPG" award.[82] 1UP.com gave it the "Most Rewarding Game" award.[83] Game Informer gave it the award for "Best Boss Fight" (Sif).[84] It also received the "Best Boss Fights" awards from GameSpot, including the Editors' Choice and Readers' Choice awards.[85] Famitsu gave it an Award of Excellence in its 2012 awards ceremony.[86]
+
+In 2013, Digital Spy named Dark Souls the best game of the seventh console generation.[87] In 2014, Edge magazine named Dark Souls the best game of the seventh generation of game consoles, noting that while some may initially tire of it, "We've yet to meet a single player for whom persistence has not been enough to transform apathy into all-consuming love."[88] In September 2015, Dark Souls topped the Edge's special issue The 100 Greatest Videogames.[89] In 2015, the game placed first on GamesRadar+'s "The 100 best games ever" list.[90] The game was also put first on USgamer's The 15 Best Games Since 2000 list.[91] The game was titled the "Best RPG on PC" by Rock, Paper, Shotgun.[92] In 2016, Dark Souls placed fifth on PC Gamer's "Best RPGs of all time" list.[93] In 2021, the game was voted the Ultimate Game of All Time at the Golden Joystick Awards.[94] 
+
+#level23: Legacy
+
+Dark Souls has been cited as one of the greatest video games of all time.[95][96][97][98][99] Due to its design and philosophy, it is often cited as an essential instance of video games as an art form.[20][100][101] It is also considered one of the most influential video games of its generation.[102] It was voted the Ultimate Game of All Time at the 2021 Golden Joystick Awards.[103]
+
+Games cited to have been influenced by Dark Souls include Destiny,[104] Alienation,[105] Lords of the Fallen,[106] The Surge,[107] Salt and Sanctuary,[108] Shovel Knight,[109][110] Titan Souls,[109][111] Enter the Gungeon,[112] The Witcher 3: Wild Hunt,[113] Nioh,[114] and God of War,[115][116] as well as features used on the PlayStation 4 console.[117] Dark Souls was also cited as an inspiration for the television show Stranger Things.[118] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

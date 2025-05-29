@@ -3,7 +3,7 @@ import os
 # === CONFIGURACIÓN ===
 input_file = "input.txt"
 output_folder = "xhtmls_sequences"
-file_prefix = "lovecraft_ch07"  # ← CAMBIA ESTO SEGÚN EL CUENTO O CAPÍTULO
+file_prefix = "HPLovecraft_Dagon"  # ← CAMBIA ESTO SEGÚN EL CUENTO O CAPÍTULO
 start_index = 1
 
 # === LEER Y PROCESAR EL ARCHIVO DE ENTRADA ===
@@ -47,6 +47,7 @@ with open(os.path.join(output_folder, filename), "w", encoding="utf-8") as f:
     </div>
   </body>
 </html>''')
+
 
 # === PROCESAR ENUNCIADOS CON SOPORTE PARA [ ... ] ===
 counter = start_index + 1
