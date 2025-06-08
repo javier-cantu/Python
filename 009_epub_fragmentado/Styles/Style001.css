@@ -1,0 +1,26 @@
+/* Reglas simplificadas para centrar imágenes */
+.image-page {
+    text-align: center; /* Centra el contenido en línea (incluyendo la figura) */
+    padding: 0; /* Asegura que no haya padding extra que empuje el contenido */
+    margin: 0; /* Asegura que no haya margen extra */
+}
+
+.image-page figure {
+    margin: 0 auto; /* Centra la figura como un bloque si tiene ancho definido (o max-width) */
+    padding: 0;
+    max-width: 95%; /* La figura no excede el 95% del ancho de la página */
+}
+
+.image-page img {
+    display: block; /* La imagen se comporta como un bloque para que margin: auto funcione */
+    max-width: 100%; /* La imagen ocupa hasta el 100% del ancho de su figura */
+    height: auto; /* Mantiene la relación de aspecto */
+    margin: 0 auto; /* Centra la imagen horizontalmente dentro de la figura */
+}
+
+.image-page figcaption {
+    text-align: center; /* Centra el texto de la leyenda */
+    margin-top: 1em; /* Espacio entre la imagen y la leyenda */
+    font-size: 0.9em;
+    color: #666;
+}
