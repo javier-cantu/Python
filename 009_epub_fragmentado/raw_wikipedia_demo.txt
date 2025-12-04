@@ -3,4 +3,32 @@ subtitle: Subtitle
 
 #level1: Level
 
-@img: image.jpg | Alt text
+#level2: Leve2
+
+#level3: Leve3
+
+#level3: Image test
+
+@img: cover_art.jpg | Alt text
+
+#level3: Demo text.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+#level3: elipses
+
+“. . . I’ve been told to give you this.”
+
+“Very well,” said Professor Trelawney, in a deeply wounded voice. “If you will not banish the usurping nag, so be it. . . . Perhaps I shall find a school where my talents are better appreciated. . . .”
+
+“Yes, sir,” said Harry quickly. “Voldemort killed his father and his grandparents and made it look as though his Uncle Morfin did it. Then he went back to Hogwarts and he asked . . . he asked Professor Slughorn about Horcruxes,” he mumbled shamefacedly.
+
+
+
+• • •
+
+
+
+• • •
+
+

@@ -15,11 +15,9 @@
 #   - Protege abreviaciones comunes (ej. "e.g.", "Mr.", "Dr.", "etc.") para evitar divisiones incorrectas.
 #   - Manejo de puntos en listas numeradas (ej. "1. Item") para evitar divisiones.
 #   - Protección de acrónimos con puntos (ej. "O.W.L.", "U.S.A.") para mantenerlos intactos.
-# - **MEJORA SIGNIFICATIVA: Manejo de oraciones que terminan en puntuación seguida inmediatamente por una letra mayúscula o una comilla de apertura y una mayúscula (ej. `."Inicio de nueva oración"` o `.Inicio`).**
-#   - Ahora estas secuencias se separan correctamente.
-# - **Manejo de oraciones que terminan con puntuación seguida de comillas o corchetes (ej. `."` o `.]`).**
-#   - Estas secuencias permanecen unidas a la oración a la que pertenecen.
-# - **Protección de iniciales en nombres (ej. "Lawrence H. Keeley").**
+# - **MEJORA: Manejo de oraciones que terminan con puntuación seguida de comillas o corchetes (ej. `."` o `.]`).**
+#   - Ahora estas secuencias permanecen unidas a la oración a la que pertenecen.
+# - **NUEVO: Protección de iniciales en nombres (ej. "Lawrence H. Keeley").**
 # - Limpia referencias textuales como `[1]` y `[citation needed]`.
 #
 # ⚠️ Limitaciones:
@@ -111,8 +109,7 @@ for line in raw_lines:
             "P.M.": "P__DOT__M__DOT__",
             "A.M.": "A__DOT__M__DOT__",
             "P.S.": "P__DOT__S__DOT__",
-            "U.S.": "U__DOT__S__DOT__",
-            "vs.": "vs__DOT__", # The stand vs.
+            "U.S.": "U__DOT__S__DOT__"
         }
         for k, v in abbreviations.items():
             line = line.replace(k, v)
@@ -140,7 +137,6 @@ for line in raw_lines:
             "N.E.W.T.": "N__DOT__E__DOT__W__DOT__T__DOT__", # Harry Potter
             "S.P.E.W.": "S__DOT__P__DOT__E__DOT__W__DOT__", # Harry Potter
             "R.A.B." : "R__DOT__A__DOT__B__DOT__", # Harry Potter
-            "L.A.": "L__DOT__A__DOT__", # The Stand 
             "U.S.A.": "U__DOT__S__DOT__A__DOT__", # Demo
         }
         for k, v in sorted(acronyms.items(), key=lambda item: len(item[0]), reverse=True):
@@ -149,18 +145,11 @@ for line in raw_lines:
         # PASO 3: Proteger los puntos suspensivos normalizados
         line = re.sub(r"\s*\.\s*\.\s*\.\s*", " [ELLIPSIS] ", line)
 
-        # MEJORA CLAVE: Marcar finales de oración para una división precisa.
-        # Primer paso: Marcar la mayoría de los casos de final de oración seguidos de una nueva oración
-        # Esto incluye puntuación final, opcionalmente seguida de comillas de cierre o corchetes,
-        # luego opcionalmente espacios, y luego una comilla de apertura o una letra mayúscula
-        line = re.sub(
-            r'([.!?])(["”\'\]]?)\s*([“"\'A-ZÁÉÍÓÚÑ])',
-            r'\1\2__SPLIT_MARKER__\3', # Coloca el marcador antes del inicio de la siguiente oración
-            line
-        )
-        # Segundo paso: Marcar casos donde la oración termina con puntuación y opcionalmente una comilla de cierre/corchete,
-        # y es el final de la línea/párrafo.
-        line = re.sub(r'([.!?])(["”\'\]]?)$', r'\1\2__SPLIT_MARKER__', line)
+        # MEJORA CLAVE: Marcar finales de oración complejos para una división precisa.
+        # Capturamos la puntuación y las opcionales comillas/corchetes, seguidos de cualquier espacio.
+        # La condición (?=[A-ZÁÉÍÓÚÑ]|$) asegura que solo marcamos finales de oración válidos
+        # (seguidos de una mayúscula o fin de línea).
+        line = re.sub(r'([.!?])(["”\'\]]?)\s*(?=[A-ZÁÉÍÓÚÑ]|$)', r'\1\2__SPLIT_MARKER__', line)
 
 
         # Separar en oraciones utilizando el marcador único
