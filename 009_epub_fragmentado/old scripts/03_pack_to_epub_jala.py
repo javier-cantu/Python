@@ -17,11 +17,11 @@ FONTS_DIR = "fonts"
 OUTPUT_EPUB_FILE = "output_ebook.epub"
 
 # Metadatos del libro (Ajusta estos valores)
-BOOK_TITLE = "Dark Souls - Wiki test"
-BOOK_AUTHOR = "Wikipedia"
+BOOK_TITLE = "The Stand - Ch52 test"
+BOOK_AUTHOR = "Stephen King"
 # Genera un UUID v4 válido (exigido por el estándar EPUB3)
 BOOK_ID = f"urn:uuid:{uuid.uuid4()}" 
-FILE_PREFIX = "DS_GAME" 
+FILE_PREFIX = "SK_TS_Ch52" 
 
 # Nombre del archivo de portada generado por 02_generate_xhtml.py
 COVER_IMAGE_FILENAME = "cover.jpg"
@@ -140,72 +140,6 @@ def generate_opf(xhtml_files, image_files, style_files, font_files):
   </guide>
 </package>'''
     return opf_template
-
-# === FUNCIÓN PARA ESCRIBIR LA PÁGINA DE MÉTRICAS (CORREGIDA ALINEACIÓN Y ORDEN) ===
-def write_summary_page(metrics, index, file_prefix, output_folder):
-    """Genera un archivo XHTML con las métricas de longitud del documento (Text Stats)."""
-    
-    # Parámetro WORDS_PER_PAGE_ESTIMATE no disponible directamente aquí, se asume 275
-    WPP = 275 
-    
-    filename = f"{file_prefix}_{str(index).zfill(4)}.xhtml"
-    filepath = os.path.join(output_folder, filename)
-    
-    # Enlace al índice (index.xhtml)
-    index_link = "index.xhtml" 
-    
-    # Formato de los números con separador de miles
-    total_sentences_str = f"{metrics['total_sentences']:,}"
-    total_words_str = f"{metrics['total_words']:,}"
-    total_chars_clean_str = f"{metrics['total_characters_clean']:,}"
-    avg_words_per_sentence_str = f"{metrics['avg_words_per_sentence']:.1f}"
-    estimated_pages_str = f"{metrics['estimated_pages']}"
-    
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(f'''<?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <title>Text Stats</title>
-    <link rel="stylesheet" href="../Styles/Style001.css" type="text/css"/>
-  </head>
-  <body>
-    <div class="centered" style="text-align: center; margin-top: 50px;">
-      <h1 style="text-align: center;">Text Stats</h1>
-      
-      <!-- Orden 1: Páginas Estimadas -->
-      <p style="text-align: center;">
-        Est. Pages: <b>{estimated_pages_str}</b> ({WPP} WPP)
-      </p>
-
-      <!-- Orden 2: Palabras promedio por línea/oración -->
-      <p style="text-align: center;">
-        Avg. W/Sentence: <b>{avg_words_per_sentence_str}</b>
-      </p>
-
-      <!-- Orden 3: Número de Líneas/Oraciones -->
-      <p style="text-align: center;">
-        Total Sentences: <b>{total_sentences_str}</b>
-      </p>
-
-      <!-- Orden 4: Número de Palabras -->
-      <p style="text-align: center;">
-        Total Words: <b>{total_words_str}</b>
-      </p>
-
-      <!-- Orden 5: Número de Caracteres (limpio) -->
-      <p style="text-align: center;">
-        Chars (Clean): <b>{total_chars_clean_str}</b>
-      </p>
-
-      <!-- Enlace al índice -->
-      <p style="margin-top: 40px; text-align: center;"><a href="{index_link}">Go to Index</a></p>
-    </div>
-  </body>
-</html>''')
-    return index + 1
-# =============================================================
-
 
 def generate_nav_xhtml(toc_entries, opf_filename, style_files):
     """Genera el contenido del archivo OEBPS/nav.xhtml (ToC Navigacional EPUB3)."""
@@ -425,7 +359,7 @@ def pack_to_epub(output_file, xhtml_dir, images_dir, styles_dir, fonts_dir, file
                     metrics_match = re.search(r'<h1>(.*?)</h1>', content, re.IGNORECASE)
                     if metrics_match:
                         title = metrics_match.group(1).strip()
-                        # El elemento Métrica es un elemento de nivel 1
+                        # CORRECCIÓN: El título de Métricas debe ser un elemento de nivel 1
                         toc_entries.append({
                             "levels": [title], 
                             "file": filename
@@ -436,59 +370,27 @@ def pack_to_epub(output_file, xhtml_dir, images_dir, styles_dir, fonts_dir, file
                     level = int(match.group(1))
                     title = match.group(2).strip()
                     
-                    # SIMPLIFICACIÓN DE LA JERARQUÍA FINAL PARA RESOLVER DUPLICIDAD:
+                    # SIMULACIÓN DE LA JERARQUÍA REVISADA:
+                    # El nivel 1 siempre debe ser el título del libro.
+                    simulated_levels = [BOOK_TITLE]
                     
-                    # Nivel 1: El título del libro. Este es el primer nivel que se mostrará.
-                    # Usamos el título real del H2 para que sea el primer nodo visible, y 
-                    # los niveles subsiguientes se anidan debajo de este.
+                    # Añadimos los placeholders necesarios basados en el nivel Hx
+                    # Si es H2 (level 2), solo necesita 1 placeholder de Chapter/Section (1-1)
+                    # Si es H4 (level 4), necesita 3 placeholders (1-1, 1-2, 1-3)
                     
-                    # El elemento más alto de la jerarquía es el título encontrado
-                    simulated_levels = [title] 
+                    # Ajusta para que la jerarquía refleje el Hx. El título del libro es el ancla (Nivel 1).
+                    # Los siguientes niveles deben ser los placeholders, hasta el título real.
                     
-                    # El nivel de anidamiento ahora se basa en Hx.
-                    # Si Hx es mayor que 2 (ej. H3), añadimos placeholders para la anidación.
-                    for i in range(3, level + 1):
-                        # Se agrega un placeholder genérico para los niveles intermedios
-                        # Usamos i-1 para que refleje el nivel de anidamiento
-                        simulated_levels.append(f"Section Level {i-1}") 
+                    # Nivel de anidamiento dentro del título principal
+                    simulated_levels.extend([f"Section {i}" for i in range(2, level)])
                     
-                    # El último elemento es el título real
-                    # Si era H2, solo tendrá [Título H2]
-                    # Si era H4, tendrá [Título H2, Section Level 2, Título H4]
-
-                    # NOTA: La lógica de anidación debe asegurar que si el primer nivel de contenido es H2, 
-                    # este sea el primer elemento de la lista. Si no es H2 (ej. H3), se anida.
+                    # El último elemento es el título real encontrado
+                    simulated_levels.append(title) 
                     
-                    # Dado que el archivo 0003.xhtml (el primer capítulo) usa H2, 
-                    # este se convierte en el primer elemento de la lista (después de Métricas).
-                    # Los subsiguientes H3, H4, etc., se anidan debajo de él.
-                    
-                    # Simplificación final:
-                    if level == 2:
-                        toc_entries.append({
-                            "levels": [title], # Nivel principal
-                            "file": filename
-                        })
-                    elif level > 2:
-                        # Anidar bajo el capítulo más alto (que es el H2)
-                        
-                        # Asume que el H2 ya fue capturado en una entrada anterior.
-                        # Aquí, solo crearemos la jerarquía a partir del Título del Libro.
-                        
-                        # Raíz de la jerarquía: Título del Libro (implícito por el lector)
-                        simulated_levels = []
-                        
-                        # Añade placeholders (Chapter/Section 1, Chapter/Section 2, etc.) hasta el nivel del heading encontrado
-                        for i in range(2, level):
-                            simulated_levels.append(f"Section Level {i-1}")
-                        
-                        simulated_levels.append(title)
-                        
-                        toc_entries.append({
-                            "levels": simulated_levels, 
-                            "file": filename
-                        })
-
+                    toc_entries.append({
+                        "levels": simulated_levels, 
+                        "file": filename
+                    })
                 # Fragmentos de oración (sin Hx) son ignorados.
         except Exception:
              pass 
@@ -586,13 +488,13 @@ if __name__ == "__main__":
             print(f"Created empty placeholder file: {cover_output_path} (Requires PIL for a real image)")
     
     # 4. Crear archivos XHTML mínimos (Placeholders)
-    # CORRECCIÓN: Se limpian los placeholders con datos genéricos
+    # NOTE: Estos placeholders son los que se leen para crear el TOC.
     placeholder_xhtmls = [
         (COVER_XHTML_FILENAME, "Cover Page", '<h1>Cover</h1>'), # Portada
         (f"{FILE_PREFIX}_0002.xhtml", "Metrics Summary", '<h1>Book Metrics Summary</h1>'), # Métricas
-        (f"{FILE_PREFIX}_0003.xhtml", "Chapter 1", '<h2>Capítulo Principal</h2>'), # Capítulo (h2)
-        (f"{FILE_PREFIX}_0004.xhtml", "Section A", '<h3>Sección A</h3>'), # Subtema (h3)
-        (f"{FILE_PREFIX}_0005.xhtml", "Section B", '<h4>Subsección B</h4>'), # Sub-subtema (h4)
+        (f"{FILE_PREFIX}_0003.xhtml", "Chapter 1", '<h2>The Stand: Book II</h2>'), # Capítulo (h2)
+        (f"{FILE_PREFIX}_0004.xhtml", "Section A", '<h3>CHAPTER 52</h3>'), # Subtema (h3)
+        (f"{FILE_PREFIX}_0005.xhtml", "Section B", '<h4>Sección B: Análisis</h4>'), # Sub-subtema (h4)
         (f"{FILE_PREFIX}_0006.xhtml", "Sentence Fragment", '<div>Esta es una línea de fragmento de texto.</div>'), # Fragmento (DEBE SER IGNORADO)
         ("index.xhtml", "Index", '<h2>Index</h2>') # Índice Visual
     ]

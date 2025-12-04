@@ -9,7 +9,7 @@ from math import ceil # Necesario para redondear las páginas estimadas
 input_file = "input.txt"
 output_folder = "xhtmls_sequences"
 images_folder = "Images"
-file_prefix = "SK_TS_Ch52"
+file_prefix = "DS_GAME"
 start_index = 1
 
 # === CONFIGURACIÓN DE LA PORTADA (AJUSTADA PARA 1600x2560) ===
@@ -100,36 +100,65 @@ def write_sentence_fragment(sentence_text, index, file_prefix, output_folder):
     return index + 1
 # =============================================================
 
-# === FUNCIÓN PARA ESCRIBIR LA PÁGINA DE MÉTRICAS (MODIFICADA PARA SER MÁS COMPACTA) ===
+# === FUNCIÓN PARA ESCRIBIR LA PÁGINA DE MÉTRICAS (CORREGIDA ALINEACIÓN Y ORDEN) ===
 def write_summary_page(metrics, index, file_prefix, output_folder):
-    """Genera un archivo XHTML con las métricas de longitud del libro."""
+    """Genera un archivo XHTML con las métricas de longitud del documento (Text Stats)."""
+    
+    # Parámetro WORDS_PER_PAGE_ESTIMATE se usa como variable global
+    WPP = globals().get('WORDS_PER_PAGE_ESTIMATE', 275)
+    
     filename = f"{file_prefix}_{str(index).zfill(4)}.xhtml"
     filepath = os.path.join(output_folder, filename)
+    
+    # Enlace al índice (index.xhtml)
+    index_link = "index.xhtml" 
+    
+    # Formato de los números con separador de miles
+    total_sentences_str = f"{metrics['total_sentences']:,}"
+    total_words_str = f"{metrics['total_words']:,}"
+    total_chars_clean_str = f"{metrics['total_characters_clean']:,}"
+    avg_words_per_sentence_str = f"{metrics['avg_words_per_sentence']:.1f}"
+    estimated_pages_str = f"{metrics['estimated_pages']}"
     
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(f'''<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <meta charset="UTF-8"/>
-    <title>Book Metrics</title>
+    <title>Text Stats</title>
     <link rel="stylesheet" href="../Styles/Style001.css" type="text/css"/>
   </head>
   <body>
-    <div class="centered">
-      <h1 style="text-align: center;">Book Metrics Summary</h1>
+    <div class="centered" style="text-align: center; margin-top: 50px;">
+      <h1 style="text-align: center;">Text Stats</h1>
       
-      <!-- Listado compacto de métricas según el orden solicitado -->
-      <p style="text-align: center; margin-bottom: 20px;">
-        <span style="font-size: 1.2em; font-weight: bold;">Est. Pages: {metrics["estimated_pages"]}</span> 
-        <span style="font-size: 0.9em;">({WORDS_PER_PAGE_ESTIMATE} WPP)</span>
+      <!-- Orden 1: Páginas Estimadas -->
+      <p style="text-align: center;">
+        Est. Pages: <b>{estimated_pages_str}</b> ({WPP} WPP)
       </p>
 
-      <p>Total Sentences: <b>{metrics["total_sentences"]:,}</b></p>
-      <p>Total Words: <b>{metrics["total_words"]:,}</b></p>
-      <p>Chars (Clean): <b>{metrics["total_characters_clean"]:,}</b></p>
-      <p>Avg. W/Sentence: <b>{metrics["avg_words_per_sentence"]:.1f}</b></p>
+      <!-- Orden 2: Palabras promedio por línea/oración -->
+      <p style="text-align: center;">
+        Avg. W/Sentence: <b>{avg_words_per_sentence_str}</b>
+      </p>
 
-      <p style="margin-top: 40px; text-align: center;"><a href="{file_prefix}_{str(index + 1).zfill(4)}.xhtml">Start Reading</a></p>
+      <!-- Orden 3: Número de Líneas/Oraciones -->
+      <p style="text-align: center;">
+        Total Sentences: <b>{total_sentences_str}</b>
+      </p>
+
+      <!-- Orden 4: Número de Palabras -->
+      <p style="text-align: center;">
+        Total Words: <b>{total_words_str}</b>
+      </p>
+
+      <!-- Orden 5: Número de Caracteres (limpio) -->
+      <p style="text-align: center;">
+        Chars (Clean): <b>{total_chars_clean_str}</b>
+      </p>
+
+      <!-- Enlace al índice -->
+      <p style="margin-top: 40px; text-align: center;"><a href="{index_link}">Go to Index</a></p>
     </div>
   </body>
 </html>''')
@@ -357,11 +386,12 @@ with open(index_file, "w", encoding="utf-8") as f:
     f.write('         <meta charset="UTF-8"/>\n')
     f.write('         <title>Index</title>\n')
     f.write('         <link rel="stylesheet" href="../Styles/Style001.css" type="text/css"/>\n')
+    # CORRECCIÓN: Quitamos el CSS inline que causaba espaciado inconsistente.
     f.write('     </head>\n')
     f.write('     <body>\n')
-    f.write('         <div class="centered">\n')
-    f.write('             <h2>Index</h2>\n') 
-    f.write(f'             <p style="margin-bottom: 20px;"><a href="{file_prefix}_{str(start_index + 1).zfill(4)}.xhtml">Book Metrics / Summary</a></p>\n') # ENLACE A MÉTRICAS
+    f.write('         <div class="centered" style="margin-top: 3em; text-align: center;">\n') # Centramos el contenedor principal
+    f.write('             <h2 style="margin-bottom: 1em;">Index</h2>\n') 
+    f.write(f'             <p style="margin: 0.5em 0;"><a href="{file_prefix}_{str(start_index + 1).zfill(4)}.xhtml">Text Stats</a></p>\n') # ENLACE A MÉTRICAS CORREGIDO Y COMPACTO
 
     def write_toc(entries, depth=0):
         current_level = {}
@@ -375,12 +405,17 @@ with open(index_file, "w", encoding="utf-8") as f:
         if not current_level:
             return
 
-        f.write("             " + "    " * depth + "<ul>\n")
+        # VUELVE A LA ESTRUCTURA HTML LIMPIA para evitar espaciado excesivo
+        # Aquí se asume que Style001.css controlará el sangrado y el espaciado
+        f.write("             " + "    " * depth + "<ul style='list-style: none; padding-left: 0;'>\n")
         for key, subentries in current_level.items():
             item = subentries[0]
             link = item["file"] if depth + 1 == len(item["levels"]) else None
 
-            f.write("             " + "    " * (depth + 1) + "<li>")
+            # Usamos un estilo de indentación basado en el depth
+            indent_style = f"style='margin-left: {depth * 1.5}em; margin-top: 0.2em;'"
+            
+            f.write(f"             " + "    " * (depth + 1) + f"<li {indent_style}>")
             if link:
                 f.write(f'<a href="{link}">{html.escape(key)}</a>')
             else:
