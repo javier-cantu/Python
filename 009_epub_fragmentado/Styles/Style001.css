@@ -24,3 +24,16 @@
     font-size: 0.9em;
     color: #666;
 }
+
+
+/* === REGLAS PARA COMPACTAR EL ÍNDICE VISUAL (index.xhtml) === */
+.toc-visual, .toc-visual ul, .toc-visual ol { /* 1. Eliminamos el margen superior/inferior general */
+margin: 0 !important; /* 2. Reducimos la sangría para que no se aplaste el texto */
+padding-left: 0.8em !important; /* 3. Quitamos las viñetas por defecto */
+list-style: none !important;
+}
+
+.toc-visual li { /* 4. Reducimos el espacio vertical entre los enlaces del índice */
+margin: 0 !important;
+padding: 0.1em 0 !important;
+}
