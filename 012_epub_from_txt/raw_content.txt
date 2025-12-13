@@ -1,0 +1,63 @@
+# =========================================================
+# === BOOK METADATA (Configuration Block) ===
+# =========================================================
+PREFIX: refactor_demo_book
+TITLE: The Refactoring of a Dream
+SUBTITLE: Clean, Modular EPUB Conversion
+AUTHOR: Javier & Gemini
+PUBLISHER: Open Source Publishing
+LANGUAGE: en
+COVER_IMAGE_ART: cover_art.jpg
+FRAGMENT_MODE: sentence_per_line
+# =========================================================
+# === START OF CONTENT ===
+# =========================================================
+
+#level1: Introduction and Core Functionality Test
+
+This section tests basic paragraph structure and line joining.
+
+A simple paragraph with one line break. It should be joined into a single logical paragraph
+by the script 02. The result should only have one '===' at the end.
+
+#level2: Custom Class and Inline Formatting Test
+
+This paragraph tests the new custom class syntax and how it interacts with tokenization.
+
+The <important>critical data</important> must be highlighted. This <small_caps>acronym</small_caps> is new. We need to check if the class <error>fails</error> to parse properly. Another sentence follows.
+
+#level2: Abbreviation and Title Protection Test
+
+This paragraph includes various abbreviations and titles defined in the script 02, which must NOT split the sentence.
+
+The meeting started at 9:00 A.M. and ended at 5:00 P.M. Mr. Smith, Dr. House, and Prof. Miller were present, as well as Sr. Jones and Jr. Peterson. We discussed a lot of topics, e.g., the new U.S. policy, etc. This is true c. 2024.
+
+#level2: Acronym and Initial Chain Test
+
+This tests complex acronyms and name initial chains, including the problematic A.B.C. case.
+
+The O.W.L. and N.E.W.T. exams are complex. The U.S.A. delegation arrived in L.A. after discussing the S.P.E.W. report. The D.A. closed the case. The patient replied, "I don't know... I feel like time is stopping." This sentence must remain intact.
+
+#level2: Ellipsis and Formatting Test
+
+This tests inconsistent ellipsis formats and inline HTML.
+
+"Very well," said the wizard. "If you will not banish the nag, so be it. . . . Perhaps I shall find a better school. . . ." She then left. A few more tests.... Here are four dots. The text supports <b>bold</b> and <i>italics</i>.
+
+#level2: Image and Separator Test
+
+@img: diagram_flow.jpg | The new script flow diagram.
+
+This is the last paragraph before the conclusion.
+
+#level1: Conclusion and Footer Separators
+
+Final check of the footer separators.
+
+The final chapter is short. We have confirmed the functionality.
+
+• • •
+
+• • •
+
+• • •

@@ -1,0 +1,49 @@
+[
+    {
+        "levels": [
+            "Introduction and Core Functionality Test"
+        ],
+        "file": "refactor_demo_book_0003.xhtml"
+    },
+    {
+        "levels": [
+            "Introduction and Core Functionality Test",
+            "Custom Class and Inline Formatting Test"
+        ],
+        "file": "refactor_demo_book_0009.xhtml"
+    },
+    {
+        "levels": [
+            "Introduction and Core Functionality Test",
+            "Abbreviation and Title Protection Test"
+        ],
+        "file": "refactor_demo_book_0015.xhtml"
+    },
+    {
+        "levels": [
+            "Introduction and Core Functionality Test",
+            "Acronym and Initial Chain Test"
+        ],
+        "file": "refactor_demo_book_0020.xhtml"
+    },
+    {
+        "levels": [
+            "Introduction and Core Functionality Test",
+            "Ellipsis and Formatting Test"
+        ],
+        "file": "refactor_demo_book_0029.xhtml"
+    },
+    {
+        "levels": [
+            "Introduction and Core Functionality Test",
+            "Image and Separator Test"
+        ],
+        "file": "refactor_demo_book_0035.xhtml"
+    },
+    {
+        "levels": [
+            "Conclusion and Footer Separators"
+        ],
+        "file": "refactor_demo_book_0038.xhtml"
+    }
+]
