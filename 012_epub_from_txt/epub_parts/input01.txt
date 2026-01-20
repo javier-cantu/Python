@@ -1,8 +1,8 @@
 # =========================================================
 # === BOOK METADATA (Configuration Block) ===
 # =========================================================
-PREFIX: refactor_demo_book
-TITLE: The Refactoring of a Dream
+PREFIX: demo_book02
+TITLE: EPUB to TXT book 02
 SUBTITLE: Clean, Modular EPUB Conversion
 AUTHOR: Javier & Gemini
 PUBLISHER: Open Source Publishing
@@ -36,8 +36,8 @@ Another sentence follows.
 ===
 This paragraph includes various abbreviations and titles defined in the script 02, which must NOT split the sentence.
 ===
-The meeting started at 9:00 A.M. and ended at 5:00 P.
-M. Mr. Smith, Dr. House, and Prof. Miller were present, as well as Sr. Jones and Jr. Peterson.
+The meeting started at 9:00 A.M. and ended at 5:00 P.M. 
+Mr. Smith, Dr. House, and Prof. Miller were present, as well as Sr. Jones and Jr. Peterson.
 We discussed a lot of topics, e.g., the new U.S. policy, etc. This is true c. 2024.
 ===
 [Introduction and Core Functionality Test > Acronym and Initial Chain Test]

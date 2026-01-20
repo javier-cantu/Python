@@ -1,8 +1,8 @@
 # =========================================================
 # === BOOK METADATA (Configuration Block) ===
 # =========================================================
-PREFIX: refactor_demo_book
-TITLE: The Refactoring of a Dream
+PREFIX: demo_book02
+TITLE: EPUB to TXT book 02
 SUBTITLE: Clean, Modular EPUB Conversion
 AUTHOR: Javier & Gemini
 PUBLISHER: Open Source Publishing

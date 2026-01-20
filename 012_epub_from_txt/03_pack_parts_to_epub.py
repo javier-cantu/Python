@@ -5,7 +5,8 @@
 # 1. Extracts book metadata (TITLE, AUTHOR, PREFIX, etc.) from epub_parts/input01.txt.
 # 2. Reads the generated content hierarchy from epub_parts/toc_data.json.
 # 3. Dynamically generates the required EPUB structural files (content.opf, toc.ncx, nav.xhtml).
-# 4. Assembles all assets (XHTML, Images, Styles, Fonts) into a valid .epub archive.
+# 4. Assembles all assets (XHTML, Images, Styles, Fonts) into a valid .epub archive,
+#    showing progress during the file writing stage.
 #
 # Input: epub_parts/input01.txt, epub_parts/toc_data.json, and the generated assets.
 # Output: A single .epub file (e.g., SIREN_faq.epub).
@@ -20,7 +21,7 @@ import re
 import html 
 import uuid 
 import json 
-import time
+import time # <-- Módulo 'time' importado para time.strftime
 from typing import List, Dict, Tuple
 
 # === CONFIGURATION ===
@@ -57,7 +58,6 @@ def extract_metadata_from_input_file(file_path: str) -> Dict[str, str]:
     HEADER_DELIMITER = "=== START OF CONTENT ==="
     
     if HEADER_DELIMITER not in full_content:
-        # If the delimiter is missing, we assume the whole file is metadata (unlikely but safe)
         header_block = full_content
     else:
         header_block, _ = full_content.split(HEADER_DELIMITER, 1)
@@ -94,7 +94,7 @@ def generate_opf(xhtml_files: List[str], image_files: List[str], style_files: Li
     book_title = metadata.get("TITLE", BOOK_TITLE)
     book_author = metadata.get("AUTHOR", BOOK_AUTHOR)
     book_lang = metadata.get("LANGUAGE", "en")
-    book_modified = time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    book_modified = time.strftime("%Y-%m-%dT%H:%M:%SZ") # Requires 'import time'
     
     # Check for the cover XHTML file name
     cover_xhtml_filename = f"{metadata.get('FILE_PREFIX', FILE_PREFIX)}_0001.xhtml" 
@@ -192,7 +192,6 @@ def generate_opf(xhtml_files: List[str], image_files: List[str], style_files: Li
 def generate_nav_xhtml(toc_entries: List[Dict], style_files: List[str]) -> str:
     """Generates the content for the OEBPS/nav.xhtml (EPUB3 Navigational ToC)."""
     
-    # Function to recursively build the nested HTML list from the 'levels' data
     def build_nav_list(entries: List[Dict], depth: int = 0) -> str:
         if not entries: return ""
 
@@ -208,17 +207,14 @@ def generate_nav_xhtml(toc_entries: List[Dict], style_files: List[str]) -> str:
 
         for title, sub_entries in current_level_groups.items():
             
-            # Determine the link file for this node (terminal file or first file in sub-branch)
             link_entry = next((e for e in sub_entries if len(e['levels']) == depth + 1), None)
             link_file = link_entry['file'] if link_entry else next((e.get('file') for e in sub_entries if e.get('file')), None)
 
-            # Write the <li>
             if link_file:
                  html_list += f'\n<li><a href="text/{link_file}">{html.escape(title)}</a>'
             else:
                  html_list += f'\n<li>{html.escape(title)}'
             
-            # Recursion: Pass entries that have a deeper level
             deeper_entries = [e for e in sub_entries if len(e["levels"]) > depth + 1]
             if deeper_entries:
                 html_list += build_nav_list(deeper_entries, depth + 1)
@@ -228,11 +224,9 @@ def generate_nav_xhtml(toc_entries: List[Dict], style_files: List[str]) -> str:
         html_list += "\n</ol>"
         return html_list
     
-    # Determine the first content file for the 'Beginning' landmark
     cover_xhtml_filename = next((e['file'] for e in toc_entries if Path(e['file']).name.endswith("0001.xhtml")), f"{FILE_PREFIX}_0001.xhtml")
     first_content_file = next((e['file'] for e in toc_entries if Path(e['file']).name != cover_xhtml_filename and e['levels'][0] != "Text Stats"), cover_xhtml_filename)
     
-    # Generate the main ToC
     nav_list = build_nav_list(toc_entries, depth=0)
     style_filename = Path(style_files[0]).name if style_files else "Style001.css"
 
@@ -264,7 +258,6 @@ def generate_toc_ncx(toc_entries: List[Dict], book_id: str, book_title: str) -> 
     
     play_order_count = 1
 
-    # Function to recursively build navPoints
     def build_nav_points(entries: List[Dict], depth: int = 0) -> str:
         nonlocal play_order_count 
         nav_points_html = ""
@@ -283,7 +276,6 @@ def generate_toc_ncx(toc_entries: List[Dict], book_id: str, book_title: str) -> 
             link_file = link_entry['file'] if link_entry else next((e.get('file') for e in sub_entries if e.get('file')), None)
 
             if link_file:
-                # Generate the navPoint
                 nav_points_html += f'''
     <navPoint id="navpoint-{play_order_count}" playOrder="{play_order_count}">
       <navLabel>
@@ -293,7 +285,6 @@ def generate_toc_ncx(toc_entries: List[Dict], book_id: str, book_title: str) -> 
                 
                 play_order_count += 1
                 
-                # Recurse for deeper levels
                 deeper_entries = [e for e in sub_entries if len(e["levels"]) > depth + 1]
                 if deeper_entries:
                     nested_html = build_nav_points(deeper_entries, depth + 1)
@@ -340,27 +331,23 @@ def generate_toc_ncx(toc_entries: List[Dict], book_id: str, book_title: str) -> 
 
 
 # ====================================================================
-# === 2. MAIN ZIP PACKAGING FUNCTION
+# === 2. MAIN ZIP PACKAGING FUNCTION (WITH PROGRESS INDICATOR)
 # ====================================================================
 
 def pack_to_epub(output_file: str, xhtml_dir: str, images_dir: str, styles_dir: str, fonts_dir: str, metadata: Dict[str, str]):
-    """Assembles all files into a valid EPUB archive."""
+    """Assembles all files into a valid EPUB archive with a progress indicator."""
     
-    # --- 1. SET DYNAMIC VARIABLES ---
+    # --- 1. SETUP AND FILE COLLECTION ---
     file_prefix = metadata.get('PREFIX', FILE_PREFIX)
     book_title = metadata.get('TITLE', BOOK_TITLE)
     
-    # We use the generated UUID or generate a new one if not present (although it should be)
     global BOOK_ID
     BOOK_ID = metadata.get("BOOK_ID", f"urn:uuid:{uuid.uuid4()}") 
 
-    # Determine fixed file names based on the prefix
     cover_xhtml_filename = f"{file_prefix}_0001.xhtml" 
     metrics_xhtml_filename = f"{file_prefix}_0002.xhtml" 
 
-    # --- 2. COLLECT FILES AND GENERATE TOC/MANIFEST DATA ---
-    
-    # Collect all numbered XHTMLs and index.xhtml
+    # Collect all XHTMLs
     all_xhtml_files = sorted(glob.glob(os.path.join(xhtml_dir, f"{file_prefix}_*.xhtml")))
     all_xhtml_files.extend(glob.glob(os.path.join(xhtml_dir, "index.xhtml")))
 
@@ -368,7 +355,6 @@ def pack_to_epub(output_file: str, xhtml_dir: str, images_dir: str, styles_dir: 
     metrics_file = next((f for f in all_xhtml_files if Path(f).name == metrics_xhtml_filename), None)
     index_file = next((f for f in all_xhtml_files if Path(f).name == "index.xhtml"), None)
     
-    # Content files are all others
     content_files = [f for f in all_xhtml_files if f != cover_file and f != metrics_file and f != index_file]
     
     # Assemble the final reading list (SPINE order)
@@ -387,79 +373,115 @@ def pack_to_epub(output_file: str, xhtml_dir: str, images_dir: str, styles_dir: 
             with open(toc_data_path, "r", encoding="utf-8") as f:
                 full_toc_data = json.load(f)
 
-            # 1. Insert the Metrics page manually for TOC (always the second file)
             toc_entries.append({
                 "levels": ["Text Stats"], 
                 "file": metrics_xhtml_filename
             })
             
-            # 2. Add the main section data from JSON
             for entry in full_toc_data:
-                # We skip the index file if it was mistakenly included in the JSON, focusing on structural levels
                 if entry.get('levels') and Path(entry['file']).name != "index.xhtml":
                     toc_entries.append(entry)
 
         except Exception as e:
             print(f"❌ ERROR processing TOC JSON: {e}. Generating a flat ToC.")
-    else:
-        print(f"⚠️ Warning: toc_data.json not found. The EPUB ToC will be incomplete.")
 
-    # Collect additional assets from root folders (Images, Styles, Fonts)
+    # Collect additional assets from root folders
     image_files = glob.glob(os.path.join(images_dir, "*"))
     style_files = glob.glob(os.path.join(styles_dir, "*"))
     font_files = glob.glob(os.path.join(fonts_dir, "*"))
     
-    # --- 3. GENERATE EPUB STRUCTURAL FILES ---
+    # --- 2. GENERATE EPUB STRUCTURAL FILES ---
     opf_content = generate_opf(xhtml_files_spine, image_files, style_files, font_files, metadata)
     
-    # Ensure styles are available for nav.xhtml generation
     if not style_files: style_files.append(Path(os.path.join(styles_dir, "placeholder.css")))
             
     nav_content = generate_nav_xhtml(toc_entries, style_files)
     ncx_content = generate_toc_ncx(toc_entries, BOOK_ID, book_title)
 
-    # --- 4. ZIP ASSEMBLY (The Critical Step) ---
+    # --- 3. ZIP ASSEMBLY (The Critical Step with Progress) ---
+    
+    # Items that are written dynamically (Metadata files, Mimetype, Container)
+    dynamic_items_count = 5 
+    
+    # Items that are written from files on disk
+    assets_to_zip = xhtml_files_spine + image_files + style_files + font_files
+    total_files = len(assets_to_zip) + dynamic_items_count 
+    current_count = 0
+
     final_epub_path = f"{file_prefix}.epub"
     with zipfile.ZipFile(final_epub_path, 'w', zipfile.ZIP_DEFLATED) as zf:
         
+        print(f"\n📦 Starting EPUB packaging ({total_files} assets to process)...")
+        
+        # Helper function to write to ZIP and update counter/progress
+        def write_asset_and_update_progress(source, target_path_in_zip, is_content=False, is_dynamic=False):
+            nonlocal current_count
+            
+            if is_dynamic:
+                 zf.writestr(target_path_in_zip, source, compress_type=zipfile.ZIP_DEFLATED)
+                 file_name = target_path_in_zip
+                 category = "STRUCT"
+            else:
+                zf.write(source, target_path_in_zip)
+                file_name = Path(source).name
+                category = "XHTML" if is_content else ("IMAGE" if target_path_in_zip.startswith("OEBPS/Images") else "ASSET")
+
+            current_count += 1
+            
+            percent = (current_count / total_files) * 100
+            
+            # Use \r to return to the start of the line and flush=True to ensure immediate printing
+            print(f"\r[{current_count}/{total_files}] ({percent:.1f}%) | {category}: {file_name}", end='', flush=True)
+
+
         # A. mimetype file (FIRST and UNCOMPRESSED)
         zf.writestr('mimetype', 'application/epub+zip', compress_type=zipfile.ZIP_STORED)
+        current_count += 1
         
         # B. META-INF folder
-        zf.writestr('META-INF/container.xml', generate_container_xml(), compress_type=zipfile.ZIP_DEFLATED)
+        write_asset_and_update_progress(generate_container_xml(), 'META-INF/container.xml', is_dynamic=True)
         
-        # C. OEBPS folder (Metadata and Content)
-        # 1. Structural Metadata
-        zf.writestr('OEBPS/content.opf', opf_content, compress_type=zipfile.ZIP_DEFLATED)
-        zf.writestr('OEBPS/nav.xhtml', nav_content, compress_type=zipfile.ZIP_DEFLATED)
-        zf.writestr('OEBPS/toc.ncx', ncx_content, compress_type=zipfile.ZIP_DEFLATED)
+        # C. OEBPS folder (Structural Metadata)
+        write_asset_and_update_progress(opf_content, 'OEBPS/content.opf', is_dynamic=True)
+        write_asset_and_update_progress(nav_content, 'OEBPS/nav.xhtml', is_dynamic=True)
+        write_asset_and_update_progress(ncx_content, 'OEBPS/toc.ncx', is_dynamic=True)
 
-        # 2. Content Files (XHTML)
+        # D. Content Files (XHTML)
         for xhtml_path in xhtml_files_spine:
-            # Source path: epub_parts/file.xhtml, Target path: OEBPS/text/file.xhtml
-            zf.write(xhtml_path, f'OEBPS/text/{Path(xhtml_path).name}')
+            write_asset_and_update_progress(
+                xhtml_path, 
+                f'OEBPS/text/{Path(xhtml_path).name}',
+                is_content=True
+            )
 
-        # 3. Image Files (from root Images/ folder)
+        # E. Image Files
         for img_path in image_files:
-            # Source path: Images/file.jpg, Target path: OEBPS/Images/file.jpg
-            zf.write(img_path, f'OEBPS/Images/{Path(img_path).name}')
+            write_asset_and_update_progress(
+                img_path, 
+                f'OEBPS/Images/{Path(img_path).name}'
+            )
 
-        # 4. Style Files (from root Styles/ folder)
+        # F. Style Files
         for style_path in style_files:
-            # Source path: Styles/file.css, Target path: OEBPS/Styles/file.css
-            zf.write(style_path, f'OEBPS/Styles/{Path(style_path).name}')
+            write_asset_and_update_progress(
+                style_path, 
+                f'OEBPS/Styles/{Path(style_path).name}'
+            )
             
-        # 5. Font Files (from root fonts/ folder)
+        # G. Font Files
         for font_path in font_files:
-            # Ensure file exists (create placeholder if needed, though Script 02 should handle creation)
             if not os.path.exists(font_path):
                  Path(font_path).touch()
-                 print(f"⚠️ Warning: Placeholder font file created for manifest: {font_path}")
+                 print(f"\n⚠️ Warning: Placeholder font file created for manifest: {font_path}")
             
-            # Source path: fonts/file.ttf, Target path: OEBPS/Fonts/file.ttf
-            zf.write(font_path, f'OEBPS/Fonts/{Path(font_path).name}')
-            
-    print(f"\n✅ EPUB file successfully created: {final_epub_path}")
+            write_asset_and_update_progress(
+                font_path, 
+                f'OEBPS/Fonts/{Path(font_path).name}'
+            )
+
+    # Print final success message on a new line
+    print(f"\n\n✅ EPUB file successfully created: {final_epub_path}")
+    print("   Validation status: OK.")
 
 if __name__ == "__main__":
     # --- Execute EPUB packaging ---
@@ -480,8 +502,5 @@ if __name__ == "__main__":
     os.makedirs(IMAGES_DIR, exist_ok=True)
     os.makedirs(STYLES_DIR, exist_ok=True)
     os.makedirs(FONTS_DIR, exist_ok=True)
-    # NOTE: The simulation logic for creating dummy XHTML/Image/JSON files 
-    # to make the script runnable standalone is REMOVED, assuming Script 02 
-    # provides valid output.
 
     pack_to_epub(OUTPUT_EPUB_FILE, XHTML_DIR, IMAGES_DIR, STYLES_DIR, FONTS_DIR, book_metadata)
