@@ -8,15 +8,15 @@ The process takes content from a single, structured source file and transforms i
 
 | Script | Input | Output | Primary Function |
 | :--- | :--- | :--- | :--- |
-| **01** | `raw_content.txt` | `epub_parts/input01.txt` | **Preprocessing:** Cleans text, handles initial sentence splitting, and preserves the metadata header. |
-| **02 (Alternate)** | `epub_parts/input01.txt` | `.xhtml` fragments, `cover.jpg`, `toc_data.json` | **Content Generation:** Creates the book assets, cover image, and defines the structural hierarchy. |
-| **03** | `epub_parts/*` (XHTMLs, JSON, etc.) | `[PREFIX].epub` | **Assembly & Packaging:** Builds the EPUB manifest/TOC files and compresses everything into the final `.epub` container. |
+| **01** | `raw_content.txt` | `epub_parts/input01.txt` | **Preprocessing:** Cleans text, handles initial sentence splitting, and preserves metadata. |
+| **02** | `epub_parts/input01.txt` | `.xhtml` fragments, `cover.jpg`, `toc_data.json` | **Content Generation:** Creates book assets, cover image, and defines structural hierarchy. |
+| **03** | `epub_parts/*` | `[PREFIX].epub` | **Assembly & Packaging:** Builds the EPUB structure and compresses the final container. |
 
 ## 2. The Input: `raw_content.txt`
 
 The pipeline starts with this file, which must contain two parts:
 
-* **Metadata Header:** A configuration block at the top (e.g., `TITLE: My Book`, `PREFIX: my_book`). This metadata drives the entire EPUB generation (used by Script 02 and 03).
+* **Metadata Header:** A configuration block at the top (e.g., `TITLE: My Book`, `PREFIX: my_book`). This metadata drives the entire EPUB generation.
 * **Structured Content:** The main text, divided into sentences, paragraphs (using `===`), and hierarchy markers (using `[Level 1 > Subtitle]`).
 
 ## 3. Stage 1: Preprocessing and Structuring
@@ -25,8 +25,11 @@ The pipeline starts with this file, which must contain two parts:
 
 **Purpose:** To clean and normalize the input text, making it suitable for the HTML fragmentation engine (Script 02).
 
-* **Key Action:** Reads the original `raw_content.txt`. It executes necessary text cleanup (like normalizing quotes or spacing) and prepares the content lines.
-* **Output:** Creates the file **`epub_parts/input01.txt`**. This file maintains the metadata header but presents the content in a standardized, line-by-line format that the next script can easily parse.
+* **Key Action:** Reads the original `raw_content.txt`. It executes necessary text cleanup (normalizing quotes, spacing, and ellipses) and prepares the content lines.
+* **Dialogue & Punctuation Intelligence:** * The script uses advanced Regular Expressions (Regex) to detect sentence boundaries without breaking dialogue. 
+    * It ensures that closing quotes (`'`, `"`, `”`) or brackets remains attached to the preceding sentence.
+    * It features a **Unification Rule**: If punctuation or a quote is accidentally orphaned on a new line, the script automatically merges it back to the previous sentence to maintain narrative flow.
+* **Output:** Creates the file **`epub_parts/input01.txt`**.
 
 ## 4. Stage 2: Content and Structure Generation (Traditional Mode)
 
@@ -53,7 +56,7 @@ The pipeline starts with this file, which must contain two parts:
 * **Metadata Injection:** Reads the metadata (Title, Author, UUID) and the structural map (`toc_data.json`).
 * **Structural File Generation:** Creates the files that define the EPUB standard:
     * `META-INF/container.xml`
-    * `OEBPS/content.opf` (The book's manifest, listing *every single file* and defining the **spine** or reading order).
-    * `OEBPS/toc.ncx` / `OEBPS/nav.xhtml` (The hierarchical Table of Contents used in the reader's menu).
-* **Packaging:** Compresses the entire structure into a single **`[PREFIX].epub`** file, ensuring the `mimetype` file is uncompressed and first, as required for validation on platforms like Google Play Books.
+    * `OEBPS/content.opf` (The book's manifest and reading order/spine).
+    * `OEBPS/toc.ncx` / `OEBPS/nav.xhtml` (The hierarchical Table of Contents for e-readers).
+* **Packaging:** Compresses the entire structure into a single **`[PREFIX].epub`** file, ensuring the `mimetype` file is uncompressed and placed first for strict EPUB 3 validation.
 * **Progress Indicator:** Includes a progress bar to visually track the compression of assets.

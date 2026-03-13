@@ -113,6 +113,11 @@ for line in raw_lines:
             output_lines.append(f"[{hierarchy}]")
             output_lines.append("===")
 
+    # --- NEW: Handle Separators (e.g., "• • •") inside the loop ---
+    elif line.strip() == "• • •":
+        output_lines.append("• • •")
+        output_lines.append("===")
+
     # --- Image handling ---
     elif line.lower().startswith("@img:"):
         output_lines.append(line)
@@ -120,85 +125,67 @@ for line in raw_lines:
 
     # --- Paragraph processing (Sentence Splitting) ---
     else:
-        # Clean references and invisible characters
-        line = re.sub(r"\[\d+\]", "", line)
-        line = re.sub(r"\[citation needed\]", "", line, flags=re.IGNORECASE)
+        # 1. Limpieza de basura (Invisible chars y citas)
+        line = re.sub(r"\[\d+\]|\[citation needed\]", "", line, flags=re.IGNORECASE)
         line = line.replace('\u200b', '').replace('\u200c', '')
 
-        # STEP 0: Protect list numbers (e.g., "1.", "2.")
+        # 2. Protección de Números de lista
         line = re.sub(r'^\s*(\d+)\.\s*', r'\1__NUMDOT__ ', line)
 
-        # STEP 1: Normalize ellipsis patterns
-        line = re.sub(r'\.\s*\.\s*\.\s*\.', '...', line)
-        line = re.sub(r'\.{4,}', '...', line)
-        line = re.sub(r'\u2026', '...', line)
+        # 3. PROTECCIÓN FIEL DE PUNTOS SUSPENSIVOS
+        # Buscamos 3 o más puntos (con o sin espacios entre ellos) 
+        # y los capturamos tal cual para que no activen el split.
+        def protect_ellipsis(match):
+            original = match.group(0)
+            # Guardamos el original en un token que no use puntos
+            return f"__ELL_MARK_{original.replace('.', 'D').replace(' ', 'S')}__"
 
-        # STEP 2: Protect abbreviations, titles, and acronyms
-        line = re.sub(r'([A-Z])\.\s+([A-ZÁÉÍÓÚÑ][a-zA-ZáéíóúñÁÉÍÓÚÑ]+)', r'\1__INITIALDOT__ \2', line)
+        # Esta regex atrapa secuencias como "...", "....", ". . . ."
+        line = re.sub(r'\.\s*\.\s*\.[\s\.]*', protect_ellipsis, line)
 
-        for k, v in abbreviations.items():
-            line = line.replace(k, v)
+        # 4. Protecciones de abreviaturas, títulos y acrónimos
+        for k, v in abbreviations.items(): line = line.replace(k, v)
+        for k, v in titles.items(): line = line.replace(k, v)
+        for k, v in sorted_acronyms: line = line.replace(k, v)
 
-        for k, v in titles.items():
-            line = line.replace(k, v)
-
-        for k, v in sorted_acronyms:
-            line = line.replace(k, v)
-
-        # STEP 3: Protect normalized ellipsis
-        line = re.sub(r"\s*\.\s*\.\s*\.\s*", " [ELLIPSIS] ", line)
-
-        # --- CRITICAL IMPROVEMENT: DIALOGUE SPLIT LOGIC ---
-        # We don't split if punctuation is immediately followed by a closing quote or bracket.
-        # We only split if followed by space and then an uppercase letter or start of a quote.
-        line = re.sub(
-            r'([.!?])\s+(?=[A-ZÁÉÍÓÚÑ“"\'\s])', 
-            r'\1__SPLIT_MARKER__', 
-            line
-        )
-
-        # Mark end of line/paragraph to ensure final cuts
+        # 5. Marcador de división (Split)
+        # Dividimos en . ! ? seguidos de espacio
+        line = re.sub(r'([.!?])\s+(?=[A-ZÁÉÍÓÚÑ“"\'\s])', r'\1__SPLIT_MARKER__', line)
         line = re.sub(r'([.!?])(["”\'\]]?)$', r'\1\2__SPLIT_MARKER__', line)
         
-        # Split sentences using the unique marker
         sentences = [s.strip() for s in line.split('__SPLIT_MARKER__') if s.strip()]
 
-        # STEP 4: Restore protections
+        # 6. Restauración
         restored_sentences = []
         for s in sentences:
-            for k, v in abbreviations.items():
-                s = s.replace(v, k)
-
-            for k, v in titles.items():
-                s = s.replace(v, k)
-
-            for k, v in sorted_acronyms:
-                s = s.replace(v, k)
+            # Restaurar Abreviaturas/Títulos
+            for k, v in abbreviations.items(): s = s.replace(v, k)
+            for k, v in titles.items(): s = s.replace(v, k)
+            for k, v in sorted_acronyms: s = s.replace(v, k)
             
+            # Restaurar los puntos originales (fielmente)
+            # Buscamos los tokens que creamos antes
+            def restore_ellipsis(match):
+                token = match.group(0)
+                # Revertimos el reemplazo de D por . y S por espacio
+                content = token.replace('__ELL_MARK_', '').replace('__', '')
+                return content.replace('D', '.').replace('S', ' ')
+            
+            s = re.sub(r'__ELL_MARK_[DS]+__', restore_ellipsis, s)
+            
+            # Otros
             s = re.sub(r'__INITIALDOT__\s*', r'. ', s) 
-            s = s.replace("[ELLIPSIS]", "...")
             s = re.sub(r'(\d+)__NUMDOT__\s*', r'\1. ', s)
-
             restored_sentences.append(s.strip())
 
-        # --- DIALOGUE UNIFICATION LOGIC ---
+        # --- UNIFICACIÓN DE LÍNEAS (Mismo proceso que ya tienes) ---
         for sentence in restored_sentences:
             if sentence:
-                # If sentence starts with closing quote/bracket, or is just a single quote,
-                # merge it with the last line in output_lines to prevent orphan punctuation.
                 if sentence[0] in ["'", '"', "”", "’", "]", ")"] and output_lines and output_lines[-1] != "===":
                     prev_line = output_lines.pop()
                     output_lines.append(prev_line + " " + sentence)
                 else:
                     output_lines.append(sentence.strip())
-
-        output_lines.append("===")
-
-# --- Handle Loose Separators (e.g., "• • •") ---
-if output_lines and output_lines[-1] == "===":
-    if raw_lines and raw_lines[-1].strip() == "• • •": 
-        output_lines.pop()
-        output_lines.append(raw_lines[-1].strip())
         output_lines.append("===")
 
 # === Save Results ===
