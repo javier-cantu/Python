@@ -44,6 +44,21 @@ This tests inconsistent ellipsis formats and inline HTML.
 
 "Very well," said the wizard. "If you will not banish the nag, so be it. . . . Perhaps I shall find a better school. . . ." She then left. A few more tests.... Here are four dots. The text supports <b>bold</b> and <i>italics</i>.
 
+Este es un párrafo normal que termina con puntos suspensivos...
+...Y este es uno que comienza con ellos para ver si se pegan a la primera palabra.
+A veces el autor escribe mal y pone muchos puntos . . . . o tal vez pone cinco..... pero el script debería normalizarlos a tres.
+
+'¿Estás seguro de esto?...' preguntó él con duda.
+'Lo estoy... totalmente seguro.' respondió ella sin vacilar.
+
+En el limbo queda esto ... rodeado de espacios.
+Pero aquí termina la idea.... 
+...Y aquí empieza la siguiente.
+
+'Espera un momento...'
+'No me digas que...'
+'¡Cuidado!'
+
 #level2: Image and Separator Test
 
 @img: diagram_flow.jpg | The new script flow diagram.
